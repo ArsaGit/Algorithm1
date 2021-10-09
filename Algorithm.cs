@@ -17,7 +17,7 @@ namespace AlgorithmLab1
 		private uint numberOfSets;
 
 		private double[] results;	//надо бы сделать udouble, но лень
-		private double[,] tempResults;	//здесь тоже
+		private double[,] tempResults;  //здесь тоже
 
 		public Algorithm(uint numberOfElements, uint numberOfSets)
 		{
@@ -33,6 +33,7 @@ namespace AlgorithmLab1
 		{
 			GetFullTimeArray();
 			GetFinalTimeArray();
+			WriteInFile();
 		}
 
 		public abstract void AlgorithmBody();
@@ -141,6 +142,25 @@ namespace AlgorithmLab1
 		}
 	}
 
+	public class AlgorithmWithArray : Algorithm
+	{
+		private double[] valuesArray;
 
+		public AlgorithmWithArray() : base(2000, 50)
+		{
+		}
+
+		public override void AlgorithmBody()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void FillArray(int seed = 1)
+		{
+			Random random = new Random(seed);
+			
+			//for(int i = 0; i < NumberOfElements)
+		}
+	}
 }
 
