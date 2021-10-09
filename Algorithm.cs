@@ -13,8 +13,8 @@ namespace AlgorithmLab1
 	{
 		private Stopwatch stopWatch;
 
-		private uint numberOfElements;
-		private uint numberOfSets;
+		public uint NumberOfElements { get; set; }
+		public uint NumberOfSets { get; set; }
 
 		private double[] results;	//надо бы сделать udouble, но лень
 		private double[,] tempResults;  //здесь тоже
@@ -22,8 +22,8 @@ namespace AlgorithmLab1
 		public Algorithm(uint numberOfElements, uint numberOfSets)
 		{
 			stopWatch = new Stopwatch();
-			this.numberOfElements = numberOfElements;
-			this.numberOfSets = numberOfSets;
+			NumberOfElements = numberOfElements;
+			NumberOfSets = numberOfSets;
 
 			tempResults = new double[numberOfElements, numberOfSets];
 			results = new double[numberOfElements];
@@ -42,9 +42,9 @@ namespace AlgorithmLab1
 		{
 			TimeSpan timeSpan;
 
-			for (int i = 0; i < numberOfSets; i++)
+			for (int i = 0; i < NumberOfSets; i++)
 			{
-				for (int j = 0; j < numberOfElements; j++)
+				for (int j = 0; j < NumberOfElements; j++)
 				{
 					stopWatch.Start();
 					AlgorithmBody();
@@ -64,11 +64,11 @@ namespace AlgorithmLab1
 
 		private double[] GetMin(double[,] array)
 		{
-			double[] res = new double[numberOfElements];
-			for (int i = 0; i < numberOfElements; i++)
+			double[] res = new double[NumberOfElements];
+			for (int i = 0; i < NumberOfElements; i++)
 			{
 				double temp = array[i, 0];
-				for (int j = 0; j < numberOfSets; j++)
+				for (int j = 0; j < NumberOfSets; j++)
 				{
 					if (array[i, j] < temp) temp = array[i, j];
 				}
@@ -142,17 +142,12 @@ namespace AlgorithmLab1
 		}
 	}
 
-	public class AlgorithmWithArray : Algorithm
+	public abstract class AlgorithmWithArray : Algorithm
 	{
 		private double[] valuesArray;
 
 		public AlgorithmWithArray() : base(2000, 50)
 		{
-		}
-
-		public override void AlgorithmBody()
-		{
-			throw new NotImplementedException();
 		}
 
 		public void FillArray(int seed = 1)
