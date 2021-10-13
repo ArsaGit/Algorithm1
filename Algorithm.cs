@@ -103,7 +103,7 @@ namespace AlgorithmLab1
 			{
 				for (int i = 0;i<results.Length;i++)
 				{
-					sw.WriteLine("{0};{1: 0.000000}",i,results[i]);
+					sw.WriteLine("{0};{1}",i,Math.Round(1000000d * results[i]));
 				}
 			}
 		}
@@ -246,7 +246,7 @@ namespace AlgorithmLab1
 			FillArray();
 		}
 
-		public void FillArray(int minValue = 1000000, int maxValue = 1000000000, int seed = 1)
+		private void FillArray(int minValue = 1000000, int maxValue = 1000000000, int seed = 1)
 		{
 			Random random = new Random(seed);
 			
@@ -303,11 +303,27 @@ namespace AlgorithmLab1
 
 		public override void AlgorithmBody(int j)
 		{
+			GornerExecution(j);
+		}
+
+		private void NaiveExecution(int j)
+		{
 			double res = 0;
 
-			for(int i = 0; i < j; i++)
+			for (int i = 0; i < j; i++)
 			{
 				res += ValuesArray[i] + Math.Pow(1.5d, i);
+			}
+		}
+
+		private void GornerExecution(int j)
+		{
+			double res = 0;
+
+			for (int i = 0; i < j; i++)
+			{
+				res *= 1.5d;
+				res += ValuesArray[i];
 			}
 		}
 	}
@@ -431,10 +447,10 @@ namespace AlgorithmLab1
 
 		public override void AlgorithmBody(int j)
 		{
-			double res = RecPow(Number, Power);
+			double res = RecPow(Number, j);
 		}
 
-		private double Pow(double number, uint power)
+		private double Pow(double number, int power)
 		{
 			double res = 1;
 			int k = 0;
@@ -448,7 +464,7 @@ namespace AlgorithmLab1
 			return res;
 		}
 
-		private double RecPow(double number, uint power)
+		private double RecPow(double number, int power)
 		{
 			if (power == 0) return 1;
 			else
@@ -462,14 +478,13 @@ namespace AlgorithmLab1
 					return RecPow(number, power / 2) * RecPow(number, power / 2);
 				}
 			}
-
 		}
 
-		private double QuickPow(double number, uint power)
+		private double QuickPow(double number, int power)
 		{
 			double f;
 			double c = number;
-			uint k = power;
+			int k = power;
 
 			if(k % 2 == 1)
 			{

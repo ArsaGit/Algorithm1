@@ -8,16 +8,16 @@ namespace AlgorithmLab1
 {
 	public class TreeSort
 	{
-        public static double[] Sort(double[] array, int j)
-        {
-            var treeNode = new TreeNode(array[0]);
-            for (int i = 1; i < j; i++)
+            public static double[] Sort(double[] array, int j)
             {
-                treeNode.Insert(new TreeNode(array[i]));
-            }
+                var treeNode = new TreeNode(array[0]);
+                for (int i = 1; i < j; i++)
+                {
+                    treeNode.Insert(new TreeNode(array[i]));
+                }
 
-            return treeNode.Transform();
-        }
+                return treeNode.Transform();
+            }
 
 
     }
