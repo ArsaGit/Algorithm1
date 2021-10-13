@@ -21,7 +21,7 @@ namespace AlgorithmLab1
 			Algorithm9 algorithm9 = new Algorithm9();
 			Algorithm10 algorithm10 = new Algorithm10();
 
-			Execute(algorithm9);
+			Execute(algorithm1);
 		}
 
 		static void Execute(Algorithm algorithm)

@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;	//библиотека для работы с таймером
 using System.IO;
-using SortLibrary;
-using MathLibrary;
 
 namespace AlgorithmLab1
 {
@@ -113,7 +111,7 @@ namespace AlgorithmLab1
 		private string GetPath(string path = "result.csv")
 		{
 			string filePath = Environment.CurrentDirectory;
-			filePath = filePath.Substring(0, filePath.IndexOf("bin")) + path;
+			filePath = filePath.Substring(0, filePath.IndexOf("bin")) + "Results\\" + path;
 			return filePath;
 		}
 
