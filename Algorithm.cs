@@ -13,12 +13,12 @@ namespace AlgorithmLab1
 	{
 		private Stopwatch stopWatch;	//сам таймер
 
-		public abstract string FileName { get; }
-		public uint NumberOfElements { get; set; }
-		public uint NumberOfSets { get; set; }
+		public abstract string FileName { get; }	//имя файла куда будут записаны данные
+		public uint NumberOfElements { get; set; }	//кол-во элементов в векторе
+		public uint NumberOfSets { get; set; }	//кол-во повторов/сетов
 
-		private double[] results;	//надо бы сделать udouble, но лень
-		private double[,] tempResults;  //здесь тоже
+		private double[] results;	//окончательный результат
+		private double[,] tempResults;  //все данные
 
 		public Algorithm(uint numberOfElements, uint numberOfSets)
 		{
@@ -211,7 +211,7 @@ namespace AlgorithmLab1
 			return Math.Sqrt(GetAverage(stdSqrt));
 		}
 	}
-
+	//постоянная функция - факториал
 	public class Algorithm1 : Algorithm
 	{
 		private double number;
@@ -257,6 +257,7 @@ namespace AlgorithmLab1
 		}
 	}
 
+	//сумма
 	public class Algorithm2 : AlgorithmWithArray
 	{
 		public override string FileName => "result-2.csv";
@@ -275,6 +276,7 @@ namespace AlgorithmLab1
 		}
 	}
 
+	//произведение
 	public class Algorithm3 : AlgorithmWithArray
 	{
 		public override string FileName => "result-3.csv";
@@ -293,6 +295,7 @@ namespace AlgorithmLab1
 		}
 	}
 
+	//многочлен Р степени n-1
 	public class Algorithm4 : AlgorithmWithArray
 	{
 		public override string FileName => "result-4.csv";
@@ -328,6 +331,7 @@ namespace AlgorithmLab1
 		}
 	}
 
+	//Bubble Sort
 	public class Algorithm5 : AlgorithmWithArray
 	{
 		public override string FileName => "result-5.csv";
@@ -338,23 +342,11 @@ namespace AlgorithmLab1
 
 		public override void AlgorithmBody(int arrayLength)
 		{
-			double temp;
-
-			for(int j = 0; j < arrayLength - 1; j++)
-			{
-				for(int i = 0; i < arrayLength - 1; i++)
-				{
-					if(ValuesArray[i] > ValuesArray[i + 1])
-					{
-						temp = ValuesArray[i + 1];
-						ValuesArray[i + 1] = ValuesArray[i];
-						ValuesArray[i] = temp;
-					}
-				}
-			}
+			Sortings.BubbleSort(ValuesArray, arrayLength);
 		}
 	}
 
+	//Quick Sort
 	public class Algorithm6 : AlgorithmWithArray
 	{
 		public override string FileName => "result-6.csv";
@@ -365,74 +357,26 @@ namespace AlgorithmLab1
 
 		public override void AlgorithmBody(int arrayLength)
 		{
-			Quick_Sort(ValuesArray, 0, arrayLength - 1);
-		}
-
-		private void Quick_Sort(double[] VariablesArray, int left, int right)
-		{
-			if (left < right)
-			{
-				int pivot = Partition(VariablesArray, left, right);
-
-				if (pivot > 1)
-				{
-					Quick_Sort(VariablesArray, left, pivot - 1);
-				}
-				if (pivot + 1 < right)
-				{
-					Quick_Sort(VariablesArray, pivot + 1, right);
-				}
-			}
-
-		}
-
-		private int Partition(double[] arr, int left, int right)
-		{
-			double pivot = arr[left];
-			while (true)
-			{
-				while (arr[left] < pivot)
-				{
-					left++;
-				}
-
-				while (arr[right] > pivot)
-				{
-					right--;
-				}
-
-				if (left < right)
-				{
-					if (arr[left] == arr[right]) return right;
-
-					double temp = arr[left];
-					arr[left] = arr[right];
-					arr[right] = temp;
-				}
-				else
-				{
-					return right;
-				}
-			}
+			Sortings.QuickSort(ValuesArray, 0, arrayLength - 1);
 		}
 	}
 
+	//Tim Sort
 	public class Algorithm7 : AlgorithmWithArray
 	{
 		public override string FileName => "result-7.csv";
-		private TimSort timSort;
 
 		public Algorithm7() : base()
 		{
-			timSort = new TimSort();
 		}
 
 		public override void AlgorithmBody(int j)
 		{
-			timSort.Sort(ValuesArray, j);
+			Sortings.TimSort(ValuesArray, j);
 		}
 	}
 
+	//Power
 	public class Algorithm8 : AlgorithmWithArray
 	{
 		public override string FileName => "result-8.csv";
@@ -510,6 +454,7 @@ namespace AlgorithmLab1
 		}
 	}
 
+	//Matrix multiplication
 	public class Algorithm9 : Algorithm
 	{
 		public override string FileName => "result-9.csv";
@@ -544,6 +489,7 @@ namespace AlgorithmLab1
 		}
 	}
 
+	//Tree Sort
 	public class Algorithm10 : AlgorithmWithArray
 	{
 		public override string FileName => "result-10.csv";
@@ -554,8 +500,10 @@ namespace AlgorithmLab1
 
 		public override void AlgorithmBody(int j)
 		{
-			double[] sortedArray = TreeSort.Sort(ValuesArray, j);
+			Sortings.TreeSort(ValuesArray, j);
 		}
 	}
+
+
 }
 
