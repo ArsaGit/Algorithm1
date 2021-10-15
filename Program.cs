@@ -10,7 +10,7 @@ namespace AlgorithmLab1
     {
         static void Main(string[] args)
         {
-			//Algorithm1 algorithm1 = new Algorithm1();
+			Algorithm1 algorithm1 = new Algorithm1();
 			//Algorithm2 algorithm2 = new Algorithm2();
 			//Algorithm3 algorithm3 = new Algorithm3();
 			//Algorithm4 algorithm4 = new Algorithm4();

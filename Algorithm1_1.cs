@@ -18,8 +18,8 @@ namespace AlgorithmLab1
 		public uint NumberOfElements { get; set; }	//кол-во элементов в векторе
 		public uint NumberOfSets { get; set; }	//кол-во повторов/сетов
 
-		private double[] results;	//окончательный результат
-		private double[,] tempResults;  //все данные
+		public double[] results;	//окончательный результат
+		public double[,] tempResults;  //все данные
 
 		public Algorithm(uint numberOfElements, uint numberOfSets)
 		{
@@ -27,8 +27,8 @@ namespace AlgorithmLab1
 			NumberOfElements = numberOfElements;
 			NumberOfSets = numberOfSets;
 
-			tempResults = new double[numberOfElements, numberOfSets];
-			results = new double[numberOfElements];
+			tempResults = new double[NumberOfElements, NumberOfSets];
+			results = new double[NumberOfElements];
 			FolderName = "Results\\";
 		}
 
@@ -147,7 +147,7 @@ namespace AlgorithmLab1
 			{
 				double[] oneDimArray = ExtractOneDimArray(tempResults, i);
 				avg = GetAverage(oneDimArray);
-				std = GetAverage(oneDimArray);
+				std = GetStd(oneDimArray);
 
 				upperBound[i] = avg + threshold * std;
 				lowerBound[i] = avg - threshold * std;

@@ -96,12 +96,15 @@ namespace AlgorithmLab1
 
 		public Algorithm2_6() : base()
 		{
-			NumberOfElements = 5000;
+			NumberOfElements = 50000;
+			tempResults = new double[NumberOfElements, NumberOfSets];
+			results = new double[NumberOfElements];
 		}
 
 		public override void AlgorithmBody(int j)
 		{
-			double num = FindNNumberFibonacci1_6(j);
+			//double num = FindNNumberFibonacci1_6(j);
+			int k = FindNNumberFibonacci2_6(j);
 		}
 
 		private double FindNNumberFibonacci1_6(int number)
