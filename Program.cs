@@ -20,8 +20,9 @@ namespace AlgorithmLab1
 			//Algorithm8 algorithm8 = new Algorithm8();
 			//Algorithm9 algorithm9 = new Algorithm9();
 			//Algorithm10 algorithm10 = new Algorithm10();
+			Algorithm2_6 algorithm2_6 = new();
 
-			//Execute(algorithm4);
+			Execute(algorithm2_6);
 
 			
 		}

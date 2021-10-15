@@ -14,6 +14,7 @@ namespace AlgorithmLab1
 		private Stopwatch stopWatch;	//сам таймер
 
 		public abstract string FileName { get; }	//имя файла куда будут записаны данные
+		public string FolderName { get; set; }
 		public uint NumberOfElements { get; set; }	//кол-во элементов в векторе
 		public uint NumberOfSets { get; set; }	//кол-во повторов/сетов
 
@@ -28,6 +29,7 @@ namespace AlgorithmLab1
 
 			tempResults = new double[numberOfElements, numberOfSets];
 			results = new double[numberOfElements];
+			FolderName = "Results\\";
 		}
 
 		public void Run()
@@ -103,15 +105,15 @@ namespace AlgorithmLab1
 			{
 				for (int i = 0;i<results.Length;i++)
 				{
-					sw.WriteLine("{0};{1}",i,Math.Round(1000000d * results[i]));
+					sw.WriteLine(Math.Round(1000000d * results[i]));
 				}
 			}
 		}
 
-		private string GetPath(string path = "result.csv")
+		private string GetPath(string fileName = "result.csv")
 		{
 			string filePath = Environment.CurrentDirectory;
-			filePath = filePath.Substring(0, filePath.IndexOf("bin")) + "Results\\" + path;
+			filePath = filePath.Substring(0, filePath.IndexOf("bin")) + FolderName + fileName;
 			return filePath;
 		}
 
@@ -503,7 +505,5 @@ namespace AlgorithmLab1
 			Sortings.TreeSort(ValuesArray, j);
 		}
 	}
-
-
 }
 
