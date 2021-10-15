@@ -61,40 +61,6 @@ namespace AlgorithmLab1
 			}
 		}
 
-		private void GetFinalTimeArray()
-		{
-			results = GetMin(tempResults);
-		}
-
-		private double[] GetMin(double[,] array)
-		{
-			double[] res = new double[NumberOfElements];
-			for (int i = 0; i < NumberOfElements; i++)
-			{
-				double temp = array[i, 0];
-				for (int j = 0; j < NumberOfSets; j++)
-				{
-					if (array[i, j] < temp) temp = array[i, j];
-				}
-				res[i] = temp;
-			}
-
-			return res;
-		}
-
-		private void WriteInFile(string[] results)
-		{
-			string writePath = GetPath();
-
-			using (StreamWriter sw = new StreamWriter(writePath, false, System.Text.Encoding.Default))
-			{
-				foreach (var element in results)
-				{
-					sw.WriteLine(element);
-				}
-			}
-		}
-
 		public void WriteInFile()
 		{
 			string fullPath = GetPath(FileName);
@@ -160,8 +126,8 @@ namespace AlgorithmLab1
 
 				for (int j = 0; j < NumberOfSets; j++)
 				{
-					if (tempResults[i, j] < upperBound[i] &&
-						tempResults[i, j] > lowerBound[i])
+					if (tempResults[i, j] <= upperBound[i] &&
+						tempResults[i, j] >= lowerBound[i])
 					{
 						sum += tempResults[i, j];
 					}
@@ -210,7 +176,9 @@ namespace AlgorithmLab1
 				stdSqrt[i] = Math.Pow(values[i] - avg, 2);
 			}
 
-			return Math.Sqrt(GetAverage(stdSqrt));
+			double avgStd = GetAverage(stdSqrt);
+
+			return Math.Sqrt(Math.Abs(avgStd));
 		}
 	}
 	//постоянная функция - факториал
