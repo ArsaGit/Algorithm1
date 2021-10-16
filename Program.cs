@@ -11,9 +11,9 @@ namespace AlgorithmLab1
 	{
 		static void Main(string[] args)
 		{
-			//RunAlgorithm();
+			RunAlgorithm();
 
-			Alg2_2();
+			//Alg2_2();
 		}
 
 		private static List<char> FindSingleClique_3(Dictionary<char, List<char>> graph)
@@ -89,7 +89,7 @@ namespace AlgorithmLab1
 			List<Node> skip_nodes = null,
 			int depth = 0)
 		{
-			if (remaining_nodes.Count == 0 && skip_nodes.Count == 0 && depth != 0)
+			if (remaining_nodes.Count == 0 && skip_nodes.Count == 0)
 			{
 
 				Console.Write("This is a clique:");
@@ -99,8 +99,9 @@ namespace AlgorithmLab1
 
 			int found_cliques = 0;
 
-			foreach (var node in remaining_nodes)
+			for(int i = 0; i < remaining_nodes.Count; i++)
 			{
+				Node node = remaining_nodes[i];
 				List<Node> new_potential_clique = potential_clique;
 				if (new_potential_clique is null) new_potential_clique = new List<Node>();
 				new_potential_clique.Add(node);
@@ -179,11 +180,12 @@ namespace AlgorithmLab1
 			Algorithm9 algorithm9 = new Algorithm9();
 			Algorithm10 algorithm10 = new Algorithm10();
 
+			Algorithm2_2 algorithm2_2 = new();
 			Algorithm2_4 algorithm2_4 = new();
 			Algorithm2_5 algorithm2_5 = new();
 			Algorithm2_6 algorithm2_6 = new();
 
-			Execute(algorithm2_4);
+			Execute(algorithm2_2);
 		}
 	}
 

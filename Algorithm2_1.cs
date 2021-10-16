@@ -39,7 +39,7 @@ namespace AlgorithmLab1
 		public override string FileName => "result2_2.csv";
 		int[,] Graphs { get; set; }
 
-		public Algorithm2_2() : base(100,50)
+		public Algorithm2_2() : base(150,50)
 		{
 			Graphs = GenerateGraphArray(NumberOfElements);
 		}
@@ -64,13 +64,69 @@ namespace AlgorithmLab1
 
 		public override void AlgorithmBody(int j)
 		{
-			throw new NotImplementedException();
+			int res = FindCliques(new Graph(Graphs, j).Nodes);
 		}
 
-		//private List<Node> FindCliques(Graph graph)
-		//{
+		private static int FindCliques(
+			List<Node> remaining_nodes = null,
+			List<Node> potential_clique = null,
+			List<Node> skip_nodes = null,
+			int depth = 0)
+		{
+			if (skip_nodes is null) skip_nodes = new List<Node>();
+			if (remaining_nodes.Count == 0 && skip_nodes.Count == 0 && depth != 0)
+			{
 
-		//}
+				//Console.Write("This is a clique:");
+				//PrintListNode(potential_clique);
+				return 1;
+			}
+
+			int found_cliques = 0;
+
+			for (int i = 0; i < remaining_nodes.Count; i++)
+			{
+				Node node = remaining_nodes[i];
+				List<Node> new_potential_clique = potential_clique;
+				if (new_potential_clique is null) new_potential_clique = new List<Node>();
+				new_potential_clique.Add(node);
+				List<Node> new_remaining_nodes = GetNodes(remaining_nodes, node);
+				List<Node> new_skip_list = GetNodes(skip_nodes, node);
+				if (new_skip_list is null) new_skip_list = new List<Node>();
+				found_cliques += FindCliques(new_remaining_nodes, new_potential_clique, new_skip_list, depth + 1);
+
+				remaining_nodes.Remove(node);
+				if (skip_nodes is null) skip_nodes = new List<Node>();
+				skip_nodes.Add(node);
+			}
+
+			return found_cliques;
+		}
+
+		private static List<Node> GetNodes(List<Node> listNodes, Node node)
+		{
+			List<Node> newListNodes = new List<Node>();
+
+			if (!(listNodes is null))
+			{
+				foreach (var n in listNodes)
+				{
+					if (node.Neighbours.Contains(n.Name)) newListNodes.Add(n);
+				}
+			}
+			return newListNodes;
+		}
+
+		private static void PrintListNode(List<Node> nodes)
+		{
+			Console.Write('[');
+			for (int i = 0; i < nodes.Count; i++)
+			{
+				Console.Write(nodes[i].Name);
+				if (i < nodes.Count - 1) Console.Write(", ");
+				else Console.Write("]\n");
+			}
+		}
 	}
 
 	//Поиск максимальной клилки
