@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,14 +23,88 @@ namespace AlgorithmLab1
 	public class Algorithm2_1 : AbstractAlgorithm2
 	{
 		public override string FileName => "result2_1.csv";
+		int[,] Graph;
 
-		public Algorithm2_1() : base(2000,50)
+		public Algorithm2_1() : base(15,5)
 		{
+			Graph = GenerateGraphArray(NumberOfElements);
 		}
 
 		public override void AlgorithmBody(int j)
 		{
-			throw new NotImplementedException();
+			int length = TravllingSalesmanProblem(Graph, 0, j);
+		}
+
+		private static void RotateRight(IList sequence, int count)
+		{
+			object tmp = sequence[count - 1];
+			sequence.RemoveAt(count - 1);
+			sequence.Insert(0, tmp);
+		}
+
+		private static IEnumerable<IList> Permutate(IList sequence, int count)
+		{
+			if (count == 1) yield return sequence;
+			else
+			{
+				for (int i = 0; i < count; i++)
+				{
+					foreach (var perm in Permutate(sequence, count - 1))
+						yield return perm;
+					RotateRight(sequence, count);
+				}
+			}
+		}
+
+		private static int[,] GenerateGraphArray(uint length)
+		{
+			Random random = new();
+			var arr = new int[length, length];
+
+			for (int i = 0; i < length; i++)
+			{
+				arr[i, i] = 0;
+				for (int j = 0; j < i; j++)
+				{
+					arr[i, j] = random.Next(10000);
+					arr[j, i] = arr[i, j];
+				}
+			}
+
+			return arr;
+		}
+
+		private static int TravllingSalesmanProblem(int[,] graph, int s, int size)
+		{
+			// store all vertex apart from source vertex
+			List<int> vertex = new List<int>();
+			for (int i = 0; i < size; i++)
+				if (i != s)
+					vertex.Add(i);
+
+			var permutations = Permutate(vertex, vertex.Count);
+
+			// store minimum weight Hamiltonian Cycle.
+			int min_path = Int32.MaxValue;
+			foreach (var permu in permutations)
+			{
+				// store current Path weight(cost)
+				int current_pathweight = 0;
+
+				// compute current path weight
+				int k = s;
+				for (int i = 0; i < permu.Count; i++)
+				{
+					current_pathweight += graph[k, Convert.ToInt32(permu[i])];
+					k = Convert.ToInt32(permu[i]);
+				}
+				current_pathweight += graph[k, s];
+
+				// update minimum
+				min_path = Math.Min(min_path, current_pathweight);
+			}
+
+			return min_path;
 		}
 	}
 
@@ -133,28 +208,61 @@ namespace AlgorithmLab1
 	public class Algorithm2_3 : AbstractAlgorithm2
 	{
 		public override string FileName => "result2_3.csv";
-		Dictionary<char, List<char>> Graph;
+		public int[,] Graph { get; set; }
 
-		public Algorithm2_3() : base(2000, 50)
+		public Algorithm2_3() : base(1000, 50)
 		{
-			Graph = new Dictionary<char, List<char>>();
+			Graph = GenerateGraphArray(NumberOfElements);
 		}
 
 		public override void AlgorithmBody(int j)
 		{
-			List<char> maxClique = FindSingleClique_3(Graph);
+			List<int> maxClique = FindSingleClique_3(GenerateDictionary(Graph,j+1));
 		}
 
-		private static List<char> FindSingleClique_3(Dictionary<char, List<char>> graph)
+		private int[,] GenerateGraphArray(uint length)
 		{
-			var clique = new List<char>();
-			var vertices = new List<char>();
+			Random random = new();
+			var arr = new int[length, length];
+
+			for (int i = 0; i < length; i++)
+			{
+				arr[i, i] = 0;
+				for (int j = 0; j < i; j++)
+				{
+					arr[i, j] = random.Next(2);
+					arr[j, i] = arr[i, j];
+				}
+			}
+
+			return arr;
+		}
+
+		private Dictionary<int, List<int>> GenerateDictionary(int[,] arr, int length)
+		{
+			var graph = new Dictionary<int, List<int>>();
+
+			for (int i = 0; i < length; i++)
+			{
+				List<int> neighbours = new List<int>();
+				for(int j = 0; j < length; j++)
+				{
+					if (arr[i, j] == 1) neighbours.Add(arr[i, j]);
+				}
+				graph[i] = neighbours;
+			}
+
+			return graph;
+		}
+
+		private static List<int> FindSingleClique_3(Dictionary<int, List<int>> graph)
+		{
+			var clique = new List<int>();
+			var vertices = new List<int>();
 			foreach (var e in graph)
 				vertices.Add(e.Key);
 
-			var rnd = new Random();
-			for (int i = 0; i <= 1; i++) //возвращает случайно выбранное число из последовательности
-				clique.Add(vertices[rnd.Next(vertices.Count)]);
+			clique.Add(vertices[vertices.Count - 1]);
 
 			foreach (var v in vertices)
 			{
