@@ -66,6 +66,11 @@ namespace AlgorithmLab1
 		{
 			throw new NotImplementedException();
 		}
+
+		//private List<Node> FindCliques(Graph graph)
+		//{
+
+		//}
 	}
 
 	//Поиск максимальной клилки

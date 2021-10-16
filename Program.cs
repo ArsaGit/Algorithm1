@@ -7,13 +7,13 @@ using System.Text;
 
 namespace AlgorithmLab1
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+	class Program
+	{
+		static void Main(string[] args)
+		{
 			//RunAlgorithm();
 
-			
+			Alg2_2();
 		}
 
 		private static List<char> FindSingleClique_3(Dictionary<char, List<char>> graph)
@@ -65,10 +65,82 @@ namespace AlgorithmLab1
 				Console.WriteLine(e);
 		}
 
+		private static void Alg2_2()
+		{
+			int[,] arr =
+			{
+				{ 0, 1, 1, 0, 1, 0 },
+				{ 1, 0, 1, 1, 0, 1 },
+				{ 1, 1, 0, 1, 0, 1 },
+				{ 0, 1, 1, 0, 1, 1 },
+				{ 1, 0, 0, 1, 0, 0 },
+				{ 0, 1, 1, 1, 0, 0 }
+			};
 
+			Graph graph = new Graph(arr, 6);
 
+			int res = FindCliques(graph.Nodes);
+			Console.WriteLine(res);
+		}
 
+		private static int FindCliques(
+			List<Node> remaining_nodes = null,
+			List<Node> potential_clique = null,
+			List<Node> skip_nodes = null,
+			int depth = 0)
+		{
+			if (remaining_nodes.Count == 0 && skip_nodes.Count == 0 && depth != 0)
+			{
 
+				Console.Write("This is a clique:");
+				PrintListNode(potential_clique);
+				return 1;
+			}
+
+			int found_cliques = 0;
+
+			foreach (var node in remaining_nodes)
+			{
+				List<Node> new_potential_clique = potential_clique;
+				if (new_potential_clique is null) new_potential_clique = new List<Node>();
+				new_potential_clique.Add(node);
+				List<Node> new_remaining_nodes = GetNodes(remaining_nodes, node);
+				List<Node> new_skip_list = GetNodes(skip_nodes, node);
+				if (new_skip_list is null) new_skip_list = new List<Node>();
+				found_cliques += FindCliques(new_remaining_nodes, new_potential_clique, new_skip_list, depth + 1);
+
+				remaining_nodes.Remove(node);
+				if (skip_nodes is null) skip_nodes = new List<Node>();
+				skip_nodes.Add(node);
+			}
+
+			return found_cliques;
+		}
+
+		private static List<Node> GetNodes(List<Node> listNodes, Node node)
+		{
+			List<Node> newListNodes = new List<Node>();
+
+			if (!(listNodes is null))
+			{
+				foreach (var n in listNodes)
+				{
+					if (node.Neighbours.Contains(n.Name)) newListNodes.Add(n);
+				}
+			}
+			return newListNodes;
+		}
+
+		private static void PrintListNode(List<Node> nodes)
+		{
+			Console.Write('[');
+			for(int i = 0; i < nodes.Count; i++)
+			{
+				Console.Write(nodes[i].Name);
+				if (i < nodes.Count - 1) Console.Write(", ");
+				else Console.Write("]\n");
+			}
+		}
 
 		private static int[,] GenerateGraphArray(uint length)
 		{
@@ -90,8 +162,8 @@ namespace AlgorithmLab1
 
 		static void Execute(Algorithm algorithm)
 		{
-            algorithm.Run();
-            algorithm.Print();
+			algorithm.Run();
+			algorithm.Print();
 		}
 
 		static void RunAlgorithm()
