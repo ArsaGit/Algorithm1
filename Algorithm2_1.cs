@@ -33,13 +33,33 @@ namespace AlgorithmLab1
 		}
 	}
 
-	//
+	//Алгоритм Брона-Кербоша для поиска максимальных клик
 	public class Algorithm2_2 : AbstractAlgorithm2
 	{
 		public override string FileName => "result2_2.csv";
+		int[,] Graphs { get; set; }
 
-		public Algorithm2_2() : base(2000,50)
+		public Algorithm2_2() : base(100,50)
 		{
+			Graphs = GenerateGraphArray(NumberOfElements);
+		}
+
+		private int[,] GenerateGraphArray(uint length)
+		{
+			Random random = new();
+			var arr = new int[length, length];
+
+			for(int i = 0; i < length; i++)
+			{
+				arr[i, i] = 0;
+				for(int j = 0; j < i; j++)
+				{
+					arr[i, j] = random.Next(2);
+					arr[j, i] = arr[i, j];
+				}
+			}
+
+			return arr;
 		}
 
 		public override void AlgorithmBody(int j)
@@ -48,18 +68,51 @@ namespace AlgorithmLab1
 		}
 	}
 
-	//
+	//Find Single Clique
 	public class Algorithm2_3 : AbstractAlgorithm2
 	{
 		public override string FileName => "result2_3.csv";
+		Dictionary<char, List<char>> Graph;
 
 		public Algorithm2_3() : base(2000, 50)
 		{
+			Graph = new Dictionary<char, List<char>>();
 		}
 
 		public override void AlgorithmBody(int j)
 		{
-			throw new NotImplementedException();
+			List<char> maxClique = FindSingleClique_3(Graph);
+		}
+
+		private static List<char> FindSingleClique_3(Dictionary<char, List<char>> graph)
+		{
+			var clique = new List<char>();
+			var vertices = new List<char>();
+			foreach (var e in graph)
+				vertices.Add(e.Key);
+
+			var rnd = new Random();
+			for (int i = 0; i <= 1; i++) //возвращает случайно выбранное число из последовательности
+				clique.Add(vertices[rnd.Next(vertices.Count)]);
+
+			foreach (var v in vertices)
+			{
+				if (clique.Contains(v))
+					continue;
+				var isNext = true;
+				foreach (var u in clique)
+				{
+					if (graph[v].Contains(u))
+						continue;
+					else
+						isNext = false;
+					break;
+				}
+				if (isNext)
+					clique.Add(v);
+			}
+			clique.Sort();
+			return clique;
 		}
 	}
 
