@@ -18,7 +18,7 @@ namespace AlgorithmLab1
 		}
 	}
 
-	//
+	//Задача коммивояжера
 	public class Algorithm2_1 : AbstractAlgorithm2
 	{
 		public override string FileName => "result2_1.csv";
@@ -68,7 +68,7 @@ namespace AlgorithmLab1
 		}
 	}
 
-	//Find Single Clique
+	//Поиск максимальной клилки
 	public class Algorithm2_3 : AbstractAlgorithm2
 	{
 		public override string FileName => "result2_3.csv";
